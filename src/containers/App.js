@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import '../css/App.css';
 import Form from './Form.js';
-import RepoPage from './RepoPage.js'
+import RepoPage from './RepoPage.js';
 import { accessToken } from '../access-token.js';
+import Loader from 'react-loader-spinner';
 const octokit = require('@octokit/rest')();
 
 class App extends Component {
@@ -21,7 +22,8 @@ class App extends Component {
       organisation: '',
       repo: '',
       isValid: true,
-      repoData: ''
+      repoData: '',
+      loading: false
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -36,6 +38,9 @@ class App extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
+    //Set loading to true
+    this.setState({loading: true})
+
     var fields = this.state.orgRepoString.split('/')
 
     // Extract organisation and repo
@@ -48,15 +53,19 @@ class App extends Component {
     octokit.repos.get({owner: fields[0], repo: fields[1]}, (error, result) => {
       // If error occurs, display error message
       if(error){
-        this.setState({isValid: false});
+        this.setState({
+          isValid: false,
+          loading: false
+        });
         return
       } else {
         this.setState({
           isValid: true,
           repoData: result.data,
-          submitted: true
+          submitted: true,
+          loading: false
         });
-        console.log(result)
+        //console.log(result)
       }
     });
   }
@@ -69,7 +78,8 @@ class App extends Component {
       orgRepoString: '',
       submitted: false,
       organisation: '',
-      repo: ''
+      repo: '',
+      loading: false
     });
   }
 
@@ -78,8 +88,9 @@ class App extends Component {
       <div className="app">
         <img src={ require('../images/gh2.png') } className="app-logo" alt="logo" />
         <div className="app-container">
-          {!this.state.submitted && <Form onChangeValue={this.handleChange} onSubmit={this.handleSubmit} isValid={this.state.isValid}/>}
-          {this.state.submitted && this.state.isValid && <RepoPage onReturn={this.handleReturn} repoData={this.state.repoData}/>}
+          {!this.state.submitted && !this.state.loading && <Form onChangeValue={this.handleChange} onSubmit={this.handleSubmit} isValid={this.state.isValid}/>}
+          {this.state.submitted && this.state.isValid && !this.state.loading && <RepoPage onReturn={this.handleReturn} repoData={this.state.repoData}/>}
+          {this.state.loading && <Loader type="Puff" color="#00BFFF" height="100" width="100"/>}
         </div>
       </div>
     );

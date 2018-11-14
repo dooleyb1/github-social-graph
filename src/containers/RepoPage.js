@@ -5,18 +5,11 @@ import RepoGraph from './RepoGraph.js';
 
 class RepoPage extends Component {
 
-  constructor (props) {
-    super(props);
-
-    this.state = {
-    };
-  }
-
   render () {
     return (
         <div className="repo-page-container">
           {this.props.repoData && <RepoProfile repoData={this.props.repoData} onReturn={this.props.onReturn}/>}
-          <RepoGraph repoData={this.props.repoData}/>
+          {this.props.repoData && <RepoGraph repoData={this.props.repoData}/>}
         </div>
     )
   }

@@ -1,0 +1,15 @@
+.repo-graph-container {
+  color: white;
+  font: 14px Arial;
+  width: calc(80% - 15px);
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.repo-graph-loading-spinner {
+  display: block;
+  align-items: center;
+  margin-top: 15.5%;
+  margin-left: auto;
+  margin-right: auto;
+}
