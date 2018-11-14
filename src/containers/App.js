@@ -4,6 +4,8 @@ import Form from './Form.js';
 import RepoPage from './RepoPage.js';
 import { accessToken } from '../access-token.js';
 import Loader from 'react-loader-spinner';
+import savedRepoData from '../facebookreact-repodata.json'
+
 const octokit = require('@octokit/rest')();
 
 class App extends Component {
@@ -49,24 +51,39 @@ class App extends Component {
       repo: fields[1]
     })
 
-    // Get repo information for organisation
-    octokit.repos.get({owner: fields[0], repo: fields[1]}, (error, result) => {
-      // If error occurs, display error message
-      if(error){
-        this.setState({
-          isValid: false,
-          loading: false
-        });
-        return
-      } else {
-        this.setState({
-          isValid: true,
-          repoData: result.data,
-          submitted: true,
-          loading: false
-        });
-        //console.log(result)
-      }
+    // // Get repo information for organisation
+    // octokit.repos.get({owner: fields[0], repo: fields[1]}, (error, result) => {
+    //   // If error occurs, display error message
+    //   if(error){
+    //     this.setState({
+    //       isValid: false,
+    //       loading: false
+    //     });
+    //     return
+    //   } else {
+    //
+    //     var fileString = String(fields[0]).concat(String(fields[1]).concat("-repodata.txt"))
+    //
+    //     console.log(JSON.stringify(result.data))
+    //     console.log(fileString);
+    //
+    //     this.setState({
+    //       isValid: true,
+    //       repoData: result.data,
+    //       submitted: false,
+    //       loading: true
+    //     });
+    //     //console.log(result)
+    //   }
+    // });
+
+    console.log(savedRepoData)
+
+    this.setState({
+      isValid: true,
+      repoData: savedRepoData,
+      submitted: true,
+      loading: false
     });
   }
 

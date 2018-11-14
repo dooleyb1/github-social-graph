@@ -6,6 +6,7 @@
     "@octokit/rest": "^15.15.1",
     "bootstrap": "^3.3.7",
     "express": "^4.16.4",
+    "jsonfile": "^5.0.0",
     "react": "^16.6.0",
     "react-bootstrap": "^0.32.4",
     "react-dom": "^16.6.0",
@@ -13,7 +14,8 @@
     "react-scripts": "2.1.0",
     "react-vis": "^1.11.4",
     "sierra-library": "^3.0.10",
-    "simple-flexbox": "^1.2.0"
+    "simple-flexbox": "^1.2.0",
+    "write-json-file": "^3.0.2"
   },
   "scripts": {
     "start": "PORT=3307 react-scripts start",

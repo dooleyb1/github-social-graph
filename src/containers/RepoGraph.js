@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import '../css/RepoGraph.css';
+import { accessToken } from '../access-token.js';
 import LoadingSpinner from './LoadingSpinner.js';
+import savedCommitData from '../facebookreact-commit-data.json'
 const octokit = require('@octokit/rest')();
 
 class RepoGraph extends Component {
@@ -11,10 +13,22 @@ class RepoGraph extends Component {
     this.state = {
       loading: false,
       commitData: '',
-      commitsFetched: 0
+      commitsFetched: 0,
+      accessToken: accessToken
     };
 
     this.paginate = this.paginate.bind(this);
+    this.authenticateGitHub = this.authenticateGitHub.bind(this);
+
+    console.log(savedCommitData)
+  }
+
+  // Authenticate with GitHub API
+  authenticateGitHub() {
+    octokit.authenticate({
+      type: 'token',
+      token: accessToken
+    })
   }
 
   // When RepoPage mounts, fetch commit data and display loading screen
@@ -22,23 +36,33 @@ class RepoGraph extends Component {
 
       this.setState({loading: true})
 
-      // Fetch all of the commit data
-      this.paginate(octokit.repos.getCommits, this.props.repoData.owner.login, this.props.repoData.name)
-      .then(data => {
-        this.setState({
-          loading: false,
-          commitData: data
-        })
-      })
+      // // Fetch all of the commit data
+      // this.paginate(octokit.repos.getCommits, this.props.repoData.owner.login, this.props.repoData.name)
+      // .then(data => {
+      //   console.log(JSON.stringify(data))
+      //   this.setState({
+      //     loading: false,
+      //     commitData: data
+      //   })
+      // })
   }
 
   // Method for fetching multiple pages of commits
   paginate = async (method, owner, repo) => {
+
+    this.authenticate()
+
     let response = await method({ per_page: 100, owner: owner, repo: repo })
     let { data } = response
     var currentCommitsFetched = this.state.commitsFetched
 
     while (octokit.hasNextPage(response)) {
+
+      octokit.authenticate({
+        type: 'token',
+        token: accessToken
+      })
+
       response = await octokit.getNextPage(response)
       data = data.concat(response.data)
       currentCommitsFetched += 100
