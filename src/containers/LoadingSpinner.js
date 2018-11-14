@@ -10,10 +10,10 @@ class LoadingSpinner extends Component {
         <Loader
           type="Bars"
           color="#4DD0E1"
-          height="100"
-          width="100"
+          height="70"
+          width="70"
         />
-        <p style={{color: '#4DD0E1'}}> Fetched {this.props.commitsFetched} commits... </p>
+        <p style={{color: '#4DD0E1'}}> Fetched {this.props.commitsFetched} commits</p>
       </div>
     )
   }

@@ -86,11 +86,11 @@ class App extends Component {
   render() {
     return (
       <div className="app">
-        <img src={ require('../images/gh2.png') } className="app-logo" alt="logo" />
+        {!this.state.submitted && <img src={ require('../images/gh2.png') } className="app-logo" alt="logo" />}
         <div className="app-container">
           {!this.state.submitted && !this.state.loading && <Form onChangeValue={this.handleChange} onSubmit={this.handleSubmit} isValid={this.state.isValid}/>}
           {this.state.submitted && this.state.isValid && !this.state.loading && <RepoPage onReturn={this.handleReturn} repoData={this.state.repoData}/>}
-          {this.state.loading && <Loader type="Puff" color="#00BFFF" height="100" width="100"/>}
+          {this.state.loading && <div className="home-screen-loading-spinner"><Loader type="Bars" color="#00BFFF" height="50" width="50"/></div>}
         </div>
       </div>
     );
