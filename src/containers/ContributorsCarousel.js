@@ -30,6 +30,7 @@ class ContributorsCarousel extends Component {
       dots: false,
       infinite: true,
       slidesToShow: 12,
+      arrows: false,
       slidesToScroll: 1,
       autoplay: true,
       speed: 1000,
