@@ -12,9 +12,11 @@
     "react-dom": "^16.6.0",
     "react-loader-spinner": "^2.2.0",
     "react-scripts": "2.1.0",
+    "react-slick": "^0.23.2",
     "react-vis": "^1.11.4",
     "sierra-library": "^3.0.10",
     "simple-flexbox": "^1.2.0",
+    "slick-carousel": "^1.8.1",
     "write-json-file": "^3.0.2"
   },
   "scripts": {

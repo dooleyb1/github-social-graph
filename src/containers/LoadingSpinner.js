@@ -6,14 +6,14 @@ class LoadingSpinner extends Component {
 
   render () {
     return (
-      <div>
+      <div className="repo-graph-loading-spinner">
         <Loader
           type="Bars"
           color="#4DD0E1"
           height="70"
           width="70"
         />
-        <p style={{color: '#4DD0E1'}}> Fetched {this.props.commitsFetched} commits</p>
+      <p style={{color: '#4DD0E1'}}> Fetched {this.props.fetched} {this.props.fetchString}</p>
       </div>
     )
   }

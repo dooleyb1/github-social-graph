@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../css/RepoGraph.css';
 import { accessToken } from '../access-token.js';
 import LoadingSpinner from './LoadingSpinner.js';
+import ContributorsCarousel from './ContributorsCarousel.js';
 import savedCommitData from '../facebookreact-commit-data.json'
 const octokit = require('@octokit/rest')();
 
@@ -13,18 +14,21 @@ class RepoGraph extends Component {
     this.state = {
       loading: false,
       commitData: '',
-      commitsFetched: 0,
+      contributorData: '',
+      fetched: 0,
+      fetchString: '',
       accessToken: accessToken
     };
 
     this.paginate = this.paginate.bind(this);
     this.authenticateGitHub = this.authenticateGitHub.bind(this);
-
-    console.log(savedCommitData)
+    this.getCommitData = this.getCommitData.bind(this);
+    this.getContributorData = this.getContributorData.bind(this);
   }
 
   // Authenticate with GitHub API
   authenticateGitHub() {
+
     octokit.authenticate({
       type: 'token',
       token: accessToken
@@ -35,38 +39,53 @@ class RepoGraph extends Component {
   componentDidMount() {
 
       this.setState({loading: true})
+      this.getContributorData()
+  }
 
-      // // Fetch all of the commit data
-      // this.paginate(octokit.repos.getCommits, this.props.repoData.owner.login, this.props.repoData.name)
-      // .then(data => {
-      //   console.log(JSON.stringify(data))
-      //   this.setState({
-      //     loading: false,
-      //     commitData: data
-      //   })
-      // })
+  getCommitData() {
+
+    this.setState({fetchString: 'commits'})
+
+    this.paginate(octokit.repos.getCommits, this.props.repoData.owner.login, this.props.repoData.name)
+    .then(data => {
+      this.setState({
+        loading: false,
+        commitData: data
+      })
+    })
+  }
+
+  getContributorData() {
+
+    this.setState({fetchString: 'contributors'})
+
+    this.paginate(octokit.repos.getContributors, this.props.repoData.owner.login, this.props.repoData.name)
+    .then(data => {
+      //console.log(data)
+      this.setState({
+        loading: false,
+        contributorData: data
+      })
+    })
   }
 
   // Method for fetching multiple pages of commits
   paginate = async (method, owner, repo) => {
 
-    this.authenticate()
+    this.authenticateGitHub()
 
     let response = await method({ per_page: 100, owner: owner, repo: repo })
     let { data } = response
-    var currentCommitsFetched = this.state.commitsFetched
+    var currentFetched = this.state.fetched
 
     while (octokit.hasNextPage(response)) {
 
-      octokit.authenticate({
-        type: 'token',
-        token: accessToken
-      })
+      this.authenticateGitHub()
 
       response = await octokit.getNextPage(response)
       data = data.concat(response.data)
-      currentCommitsFetched += 100
-      this.setState({commitsFetched: currentCommitsFetched})
+      currentFetched += 100
+      this.setState({fetched: currentFetched})
     }
     return data
   }
@@ -75,8 +94,9 @@ class RepoGraph extends Component {
     return (
       <div className="repo-graph-container">
         <div className="repo-graph-loading-spinner">
-          {this.state.loading && <LoadingSpinner commitsFetched={this.state.commitsFetched}/>}
+          {this.state.loading && <LoadingSpinner fetched={this.state.fetched} fetchString={this.state.fetchString}/>}
         </div>
+        {!this.state.loading && this.state.contributorData && <ContributorsCarousel contributorData={this.state.contributorData}/>}
       </div>
     )
   }

@@ -51,39 +51,30 @@ class App extends Component {
       repo: fields[1]
     })
 
-    // // Get repo information for organisation
-    // octokit.repos.get({owner: fields[0], repo: fields[1]}, (error, result) => {
-    //   // If error occurs, display error message
-    //   if(error){
-    //     this.setState({
-    //       isValid: false,
-    //       loading: false
-    //     });
-    //     return
-    //   } else {
-    //
-    //     var fileString = String(fields[0]).concat(String(fields[1]).concat("-repodata.txt"))
-    //
-    //     console.log(JSON.stringify(result.data))
-    //     console.log(fileString);
-    //
-    //     this.setState({
-    //       isValid: true,
-    //       repoData: result.data,
-    //       submitted: false,
-    //       loading: true
-    //     });
-    //     //console.log(result)
-    //   }
-    // });
+    // Get repo information for organisation
+    octokit.repos.get({owner: fields[0], repo: fields[1]}, (error, result) => {
+      // If error occurs, display error message
+      if(error){
+        this.setState({
+          isValid: false,
+          loading: false
+        });
+        return
+      } else {
 
-    console.log(savedRepoData)
+        var fileString = String(fields[0]).concat(String(fields[1]).concat("-repodata.txt"))
 
-    this.setState({
-      isValid: true,
-      repoData: savedRepoData,
-      submitted: true,
-      loading: false
+        //console.log(JSON.stringify(result.data))
+        //console.log(fileString);
+
+        this.setState({
+          isValid: true,
+          repoData: result.data,
+          submitted: true,
+          loading: false
+        });
+        //console.log(result)
+      }
     });
   }
 

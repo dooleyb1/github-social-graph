@@ -5,12 +5,3 @@
   display: flex;
   flex-wrap: wrap;
 }
-
-.repo-graph-loading-spinner {
-  display: block;
-  align-items: center;
-  text-align: center;
-  margin-top: 15.5%;
-  margin-left: auto;
-  margin-right: auto;
-}
