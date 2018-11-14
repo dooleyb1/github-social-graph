@@ -1,0 +1,12 @@
+.repo-page-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: calc(100% - 15px);
+  height: calc(100% - 150px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.return-button {
+  margin-top: 7.0%;
+}

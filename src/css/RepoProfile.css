@@ -1,0 +1,46 @@
+.repo-profile-container {
+  color: white;
+  font: 14px Arial;
+  width: calc(20% - 15px);
+}
+
+.repo-profile {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  align-items: center;
+}
+
+.org-icon {
+  height: 10vh;
+  border-radius: 50%;
+}
+
+.repo-details-primary {
+  margin-top: 10.5%;
+  color: white;
+}
+
+.repo-details-secondary {
+  margin-top: 12.0%;
+  color: white;
+}
+
+.horizontal-line {
+  height: calc(5% - 15px);
+  margin-top: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 15px;
+  border-top: 1px solid grey;
+  width: calc(80%);
+}
+
+.repo-details-links {
+  margin-top: 10.0%;
+}
+
+.link {
+  color: #61dafb;
+}
