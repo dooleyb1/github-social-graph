@@ -1,14 +1,11 @@
 .repo-profile-container {
   color: white;
   font: 14px Arial;
-  width: calc(20% - 15px);
+  width: calc(100% - 15px);
 }
 
 .repo-profile {
   text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
   align-items: center;
 }
 

@@ -3,7 +3,8 @@ import '../css/RepoGraph.css';
 import { accessToken } from '../access-token.js';
 import LoadingSpinner from './LoadingSpinner.js';
 import ContributorsCarousel from './ContributorsCarousel.js';
-import savedCommitData from '../facebookreact-commit-data.json'
+import CommitGraph from './CommitGraph.js';
+//import savedCommitData from '../facebookreact-commit-data.json'
 const octokit = require('@octokit/rest')();
 
 class RepoGraph extends Component {
@@ -12,8 +13,10 @@ class RepoGraph extends Component {
     super(props);
 
     this.state = {
-      loading: false,
+      contributorLoading: false,
+      commitsLoading: false,
       commitData: '',
+      commitGraphData: '',
       contributorData: '',
       fetched: 0,
       fetchString: '',
@@ -38,32 +41,73 @@ class RepoGraph extends Component {
   // When RepoPage mounts, fetch commit data and display loading screen
   componentDidMount() {
 
-      this.setState({loading: true})
-      this.getContributorData()
+    this.setState({
+      contributorLoading: true,
+      commitLoading: true
+    })
+
+    this.getContributorData()
+    this.getCommitData()
   }
 
   getCommitData() {
 
-    this.setState({fetchString: 'commits'})
+    this.setState({
+      fetchString: 'commits'
+    })
 
     this.paginate(octokit.repos.getCommits, this.props.repoData.owner.login, this.props.repoData.name)
     .then(data => {
+
+      var commitCounts = {};
+
+      // Loop over every commit
+      for(var commit in data){
+
+        var commitDate = new Date(data[commit].commit.author.date.substring(0,10))
+
+        // If commit count exists for that day, increment
+        if(commitCounts[commitDate]){
+          commitCounts[commitDate]++;
+        } else {
+          commitCounts[commitDate] = 1;
+        }
+      }
+
+      // Get data for commit graph
+      var graphData = [];
+
+      // Convert commit stats to key:date, val:count object
+      for(var node in commitCounts){
+        graphData.push({x: new Date(node), y: commitCounts[node]})
+      }
+
+      console.log(graphData)
+
+
+
+      // Set state to say data is ready
       this.setState({
-        loading: false,
-        commitData: data
+        commitLoading: false,
+        commitData: data,
+        commitGraphData: graphData
       })
+      console.log(data)
     })
   }
 
   getContributorData() {
 
-    this.setState({fetchString: 'contributors'})
+    this.setState({
+      fetchString: 'contributors'
+    })
 
     this.paginate(octokit.repos.getContributors, this.props.repoData.owner.login, this.props.repoData.name)
     .then(data => {
-      //console.log(data)
+
+      // Set state to say data is ready
       this.setState({
-        loading: false,
+        contributorLoading: false,
         contributorData: data
       })
     })
@@ -92,11 +136,10 @@ class RepoGraph extends Component {
 
   render () {
     return (
-      <div className="repo-graph-container">
-        <div className="repo-graph-loading-spinner">
-          {this.state.loading && <LoadingSpinner fetched={this.state.fetched} fetchString={this.state.fetchString}/>}
-        </div>
-        {!this.state.loading && this.state.contributorData && <ContributorsCarousel contributorData={this.state.contributorData}/>}
+      <div>
+        {(this.state.contributorLoading || this.state.commitLoading) && <LoadingSpinner fetched={this.state.fetched} fetchString={this.state.fetchString}/>}
+        {!this.state.commitLoading && this.state.commitGraphData && <div className='row80'><CommitGraph graphData={this.state.commitGraphData}/></div>}
+        {!this.state.contributorLoading && this.state.contributorData && <div className='row20'><ContributorsCarousel contributorData={this.state.contributorData}/></div>}
       </div>
     )
   }

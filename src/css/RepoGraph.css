@@ -2,6 +2,38 @@
   color: white;
   font: 14px Arial;
   width: calc(80% - 15px);
+  height: calc(80%);
   display: flex;
   flex-wrap: wrap;
+}
+
+.repo-contributors-container {
+  color: white;
+  font: 14px Arial;
+  width: calc(80% - 15px);
+  height: calc(80%);
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.row20 {
+  display: block;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+  justify-content: space-around;
+  color: white;
+  width: calc(100% - 15px);
+  height: 100px;
+  margin-top:10%;
+}
+
+.row80 {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-around;
+  width: calc(100% - 15px);
+  height: 80%;
 }

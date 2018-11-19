@@ -4,7 +4,7 @@ import Form from './Form.js';
 import RepoPage from './RepoPage.js';
 import { accessToken } from '../access-token.js';
 import Loader from 'react-loader-spinner';
-import savedRepoData from '../facebookreact-repodata.json'
+//import savedRepoData from '../facebookreact-repodata.json'
 
 const octokit = require('@octokit/rest')();
 

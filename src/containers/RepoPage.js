@@ -7,9 +7,13 @@ class RepoPage extends Component {
 
   render () {
     return (
-        <div className="repo-page-container">
-          {this.props.repoData && <RepoProfile repoData={this.props.repoData} onReturn={this.props.onReturn}/>}
-          {this.props.repoData && <RepoGraph repoData={this.props.repoData}/>}
+        <div className="row1">
+          <div className="col1">
+            {this.props.repoData && <RepoProfile repoData={this.props.repoData} onReturn={this.props.onReturn}/>}
+          </div>
+          <div className="col2">
+            {this.props.repoData && <RepoGraph repoData={this.props.repoData}/>}
+          </div>
         </div>
     )
   }

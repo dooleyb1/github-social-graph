@@ -39,7 +39,7 @@ class ContributorsCarousel extends Component {
     };
 
     return (
-      <div className="contributors-carousel">
+      <div>
         <Slider {...settings}>
             {this.generateContributorIcons(this.props.contributorData)}
         </Slider>
