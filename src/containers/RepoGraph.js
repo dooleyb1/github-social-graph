@@ -3,6 +3,7 @@ import '../css/RepoGraph.css';
 import { accessToken } from '../access-token.js';
 import LoadingSpinner from './LoadingSpinner.js';
 import ContributorsCarousel from './ContributorsCarousel.js';
+import AdditionDeletionGraph from './AdditionDeletionGraph.js';
 import CommitGraph from './CommitGraph.js';
 //import savedCommitData from '../facebookreact-commit-data.json'
 const octokit = require('@octokit/rest')();
@@ -15,7 +16,10 @@ class RepoGraph extends Component {
     this.state = {
       contributorLoading: false,
       commitsLoading: false,
+      additionDeletionLoading: false,
       commitData: '',
+      additionStats: '',
+      deletionStats: '',
       commitGraphData: '',
       contributorData: '',
       fetched: 0,
@@ -27,6 +31,21 @@ class RepoGraph extends Component {
     this.authenticateGitHub = this.authenticateGitHub.bind(this);
     this.getCommitData = this.getCommitData.bind(this);
     this.getContributorData = this.getContributorData.bind(this);
+    this.getAdditionDeletionStats = this.getAdditionDeletionStats.bind(this);
+  }
+
+  // When RepoPage mounts, fetch commit data and display loading screen
+  componentDidMount() {
+
+    this.setState({
+      contributorLoading: true,
+      commitLoading: true,
+      additionDeletionLoading: true
+    })
+
+    this.getContributorData()
+    this.getCommitData()
+    this.getAdditionDeletionStats()
   }
 
   // Authenticate with GitHub API
@@ -36,18 +55,6 @@ class RepoGraph extends Component {
       type: 'token',
       token: accessToken
     })
-  }
-
-  // When RepoPage mounts, fetch commit data and display loading screen
-  componentDidMount() {
-
-    this.setState({
-      contributorLoading: true,
-      commitLoading: true
-    })
-
-    this.getContributorData()
-    this.getCommitData()
   }
 
   getCommitData() {
@@ -84,16 +91,49 @@ class RepoGraph extends Component {
 
       console.log(graphData)
 
-
-
       // Set state to say data is ready
       this.setState({
         commitLoading: false,
         commitData: data,
         commitGraphData: graphData
       })
-      console.log(data)
+      //console.log(data)
     })
+  }
+
+  getAdditionDeletionStats() {
+
+    // Get addition/deletion stats from GitHub API
+    fetch('https://api.github.com/repos/facebook/react/stats/code_frequency')
+     .then(response => response.json())
+     .then(data => {
+
+       var additions = [];
+       var deletions = [];
+
+       for(var entry in data){
+
+         var date = new Date(data[entry][0] * 1000);
+
+         additions.push({
+           x: new Date(date),
+           y: data[entry][1]
+         })
+
+         deletions.push({
+           x: date,
+           y: (data[entry][2] * -1)
+         })
+       }
+       // console.log(additions)
+       // console.log(deletions)
+
+       this.setState({
+         additionStats: additions,
+         deletionStats: deletions,
+         additionDeletionLoading: false
+       })
+     })
   }
 
   getContributorData() {
@@ -138,7 +178,8 @@ class RepoGraph extends Component {
     return (
       <div>
         {(this.state.contributorLoading || this.state.commitLoading) && <LoadingSpinner fetched={this.state.fetched} fetchString={this.state.fetchString}/>}
-        {!this.state.commitLoading && this.state.commitGraphData && <div className='row80'><CommitGraph graphData={this.state.commitGraphData}/></div>}
+        {this.state.commitLoading && this.state.commitGraphData && <div className='row80'><CommitGraph graphData={this.state.commitGraphData}/></div>}
+        {!this.state.additionDeletionLoading && this.state.deletionStats && this.state.additionStats && <div className='row80'><AdditionDeletionGraph additionStats={this.state.additionStats} deletionStats={this.state.deletionStats}/></div>}
         {!this.state.contributorLoading && this.state.contributorData && <div className='row20'><ContributorsCarousel contributorData={this.state.contributorData}/></div>}
       </div>
     )
