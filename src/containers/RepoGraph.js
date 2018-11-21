@@ -21,6 +21,7 @@ class RepoGraph extends Component {
       topContributorsLoading: false,
       additionStats: '',
       deletionStats: '',
+      topContributorData: '',
       commitData: '',
       commitGraphData: '',
       contributorData: '',
@@ -162,22 +163,40 @@ class RepoGraph extends Component {
     fetch(fetchEndpoint)
      .then(response => response.json())
      .then(data => {
-       console.log(data)
+       //console.log(data)
 
-       var contributors = [];
        var contributions = [];
 
        for(var entry in data){
 
-         console.log(data[entry].total)
-         console.log(data[entry].author.login)
-         // additions.push({
-         //   x0: date,
-         //   x: date_plus_one_week,
-         //   y: data[entry][1]
-         // })
+         // console.log(data[entry].total)
+         // console.log(data[entry].author.login)
 
+         contributions.push({
+           author: data[entry].author.login,
+           contributions: data[entry].total
+         })
        }
+
+       // Get top 5
+       var top5 = [];
+       var topContributorsChartData = []
+       var totalContributions = 0
+
+       for(var i=contributions.length-1; i>(contributions.length-6); i--){
+         top5.push(contributions[i])
+         totalContributions += contributions[i].contributions
+       }
+
+       for(var i=0; i < top5.length; i++){
+         topContributorsChartData.push({theta: (14*(top5[i].contributions/totalContributions))})
+       }
+
+       // Set state to say data is ready
+       this.setState({
+         topContributorsLoading: false,
+         topContributorData: topContributorsChartData
+       })
      })
   }
 
