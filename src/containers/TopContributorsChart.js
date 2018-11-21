@@ -14,29 +14,27 @@ class TopContributorsChart extends Component {
   }
 
   render () {
-    return (
-      <div className='chart'>
-        <RadialChart
-          innerRadius={100}
-          radius={140}
-          getAngle={d => d.theta}
-          data={[
-            {theta: 2},
-            {theta: 6},
-            {theta: 2},
-            {theta: 3},
-            {theta: 1}
-          ]}
-          onValueMouseOver={v => this.setState({value: v})}
-          onSeriesMouseOut={v => this.setState({value: false})}
-          width={300}
-          height={300}
-          padAngle={0.04}
-        >
-        {this.state.value && <Hint value={this.state.value} />}
-        </RadialChart>
-      </div>
-    )
+    if(!this.props.topContributorData){
+      return(<div></div>)
+    } else{
+      return (
+        <div className='chart'>
+          <RadialChart
+            innerRadius={100}
+            radius={140}
+            getAngle={d => d.theta}
+            data={this.props.topContributorData}
+            onValueMouseOver={v => this.setState({value: v})}
+            onSeriesMouseOut={v => this.setState({value: false})}
+            width={300}
+            height={300}
+            padAngle={0.04}
+          >
+          {this.state.value && <Hint value={this.state.value} />}
+          </RadialChart>
+        </div>
+      )
+    }
   }
 }
 

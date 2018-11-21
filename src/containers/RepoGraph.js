@@ -181,16 +181,13 @@ class RepoGraph extends Component {
        // Get top 5
        var top5 = [];
        var topContributorsChartData = []
-       var totalContributions = 0
 
        for(var i=contributions.length-1; i>(contributions.length-6); i--){
          top5.push(contributions[i])
-         totalContributions += contributions[i].contributions
+         topContributorsChartData.push({theta: contributions[i].contributions})
        }
 
-       for(var i=0; i < top5.length; i++){
-         topContributorsChartData.push({theta: (14*(top5[i].contributions/totalContributions))})
-       }
+       console.log(topContributorsChartData)
 
        // Set state to say data is ready
        this.setState({
@@ -244,7 +241,7 @@ class RepoGraph extends Component {
         {(this.state.contributorLoading || this.state.commitLoading || this.state.additionDeletionLoading) && <LoadingSpinner fetched={this.state.fetched} fetchString={this.state.fetchString}/>}
         {this.state.commitLoading && this.state.commitGraphData && <div className='row80'><CommitGraph graphData={this.state.commitGraphData}/></div>}
         {this.state.additionDeletionLoading && this.state.deletionStats && this.state.additionStats && <div className='row80'><AdditionDeletionGraph deletionStats={this.state.deletionStats} additionStats={this.state.additionStats}/></div>}
-        {!this.state.contributorLoading && <div className='row80'><TopContributorsChart/></div>}
+        {!this.state.topContributorsLoading && this.state.topContributorData && <div className='row80'><TopContributorsChart topContributorData={this.state.topContributorData}/></div>}
         {!this.state.contributorLoading && this.state.contributorData && <div className='row20'><ContributorsCarousel contributorData={this.state.contributorData}/></div>}
       </div>
     )
