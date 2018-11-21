@@ -4,6 +4,7 @@ import { accessToken } from '../access-token.js';
 import LoadingSpinner from './LoadingSpinner.js';
 import ContributorsCarousel from './ContributorsCarousel.js';
 import AdditionDeletionGraph from './AdditionDeletionGraph.js';
+import TopContributorsChart from './TopContributorsChart.js';
 import CommitGraph from './CommitGraph.js';
 //import savedCommitData from '../facebookreact-commit-data.json'
 const octokit = require('@octokit/rest')();
@@ -17,6 +18,7 @@ class RepoGraph extends Component {
       contributorLoading: false,
       commitsLoading: false,
       additionDeletionLoading: false,
+      topContributorsLoading: false,
       additionStats: '',
       deletionStats: '',
       commitData: '',
@@ -31,6 +33,7 @@ class RepoGraph extends Component {
     this.authenticateGitHub = this.authenticateGitHub.bind(this);
     this.getCommitData = this.getCommitData.bind(this);
     this.getContributorData = this.getContributorData.bind(this);
+    this.getTopContributorData = this.getTopContributorData.bind(this);
     this.getAdditionDeletionStats = this.getAdditionDeletionStats.bind(this);
   }
 
@@ -40,9 +43,11 @@ class RepoGraph extends Component {
     this.setState({
       contributorLoading: true,
       commitLoading: true,
-      additionDeletionLoading: true
+      additionDeletionLoading: true,
+      topContributorsLoading: false,
     })
 
+    this.getTopContributorData()
     this.getContributorData()
     this.getCommitData()
     this.getAdditionDeletionStats()
@@ -104,7 +109,8 @@ class RepoGraph extends Component {
   getAdditionDeletionStats() {
 
     // Get addition/deletion stats from GitHub API
-    fetch('https://api.github.com/repos/facebook/react/stats/code_frequency')
+    var fetchEndpoint = 'https://api.github.com/repos/'.concat(this.props.repoData.owner.login, '/',this.props.repoData.name, '/stats/code_frequency')
+    fetch(fetchEndpoint)
      .then(response => response.json())
      .then(data => {
 
@@ -142,6 +148,36 @@ class RepoGraph extends Component {
          additionStats: additions,
          deletionStats: deletions
        })
+     })
+  }
+
+  getTopContributorData() {
+
+    this.setState({
+      fetchString: 'top contributors'
+    })
+
+    // Get addition/deletion stats from GitHub API
+    var fetchEndpoint = 'https://api.github.com/repos/'.concat(this.props.repoData.owner.login, '/',this.props.repoData.name, '/stats/contributors')
+    fetch(fetchEndpoint)
+     .then(response => response.json())
+     .then(data => {
+       console.log(data)
+
+       var contributors = [];
+       var contributions = [];
+
+       for(var entry in data){
+
+         console.log(data[entry].total)
+         console.log(data[entry].author.login)
+         // additions.push({
+         //   x0: date,
+         //   x: date_plus_one_week,
+         //   y: data[entry][1]
+         // })
+
+       }
      })
   }
 
@@ -186,9 +222,10 @@ class RepoGraph extends Component {
   render () {
     return (
       <div>
-        {(this.state.contributorLoading || this.state.commitLoading) && <LoadingSpinner fetched={this.state.fetched} fetchString={this.state.fetchString}/>}
+        {(this.state.contributorLoading || this.state.commitLoading || this.state.additionDeletionLoading) && <LoadingSpinner fetched={this.state.fetched} fetchString={this.state.fetchString}/>}
         {this.state.commitLoading && this.state.commitGraphData && <div className='row80'><CommitGraph graphData={this.state.commitGraphData}/></div>}
-        {!this.state.additionDeletionLoading && this.state.deletionStats && this.state.additionStats && <div className='row80'><AdditionDeletionGraph deletionStats={this.state.deletionStats} additionStats={this.state.additionStats}/></div>}
+        {this.state.additionDeletionLoading && this.state.deletionStats && this.state.additionStats && <div className='row80'><AdditionDeletionGraph deletionStats={this.state.deletionStats} additionStats={this.state.additionStats}/></div>}
+        {!this.state.contributorLoading && <div className='row80'><TopContributorsChart/></div>}
         {!this.state.contributorLoading && this.state.contributorData && <div className='row20'><ContributorsCarousel contributorData={this.state.contributorData}/></div>}
       </div>
     )
