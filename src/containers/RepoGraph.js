@@ -17,9 +17,9 @@ class RepoGraph extends Component {
       contributorLoading: false,
       commitsLoading: false,
       additionDeletionLoading: false,
-      commitData: '',
       additionStats: '',
       deletionStats: '',
+      commitData: '',
       commitGraphData: '',
       contributorData: '',
       fetched: 0,
@@ -89,7 +89,7 @@ class RepoGraph extends Component {
         graphData.push({x: new Date(node), y: commitCounts[node]})
       }
 
-      console.log(graphData)
+      //console.log(graphData)
 
       // Set state to say data is ready
       this.setState({
@@ -114,14 +114,23 @@ class RepoGraph extends Component {
        for(var entry in data){
 
          var date = new Date(data[entry][0] * 1000);
+         //console.log(date)
+         var date_plus_one_week = new Date(date)
+         date_plus_one_week.setDate(date_plus_one_week.getDate() + 7)
+         // console.log(date_week)
+         // console.log(date)
+         // console.log(data[entry][2])
+         // console.log(new Date(date))
 
          additions.push({
-           x: new Date(date),
+           x0: date,
+           x: date_plus_one_week,
            y: data[entry][1]
          })
 
          deletions.push({
-           x: date,
+           x0: date,
+           x: date_plus_one_week,
            y: (data[entry][2] * -1)
          })
        }
@@ -129,9 +138,9 @@ class RepoGraph extends Component {
        // console.log(deletions)
 
        this.setState({
+         additionDeletionLoading: false,
          additionStats: additions,
-         deletionStats: deletions,
-         additionDeletionLoading: false
+         deletionStats: deletions
        })
      })
   }
@@ -179,7 +188,7 @@ class RepoGraph extends Component {
       <div>
         {(this.state.contributorLoading || this.state.commitLoading) && <LoadingSpinner fetched={this.state.fetched} fetchString={this.state.fetchString}/>}
         {this.state.commitLoading && this.state.commitGraphData && <div className='row80'><CommitGraph graphData={this.state.commitGraphData}/></div>}
-        {!this.state.additionDeletionLoading && this.state.deletionStats && this.state.additionStats && <div className='row80'><AdditionDeletionGraph additionStats={this.state.additionStats} deletionStats={this.state.deletionStats}/></div>}
+        {!this.state.additionDeletionLoading && this.state.deletionStats && this.state.additionStats && <div className='row80'><AdditionDeletionGraph deletionStats={this.state.deletionStats} additionStats={this.state.additionStats}/></div>}
         {!this.state.contributorLoading && this.state.contributorData && <div className='row20'><ContributorsCarousel contributorData={this.state.contributorData}/></div>}
       </div>
     )
