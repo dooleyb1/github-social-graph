@@ -16,11 +16,12 @@ class RepoGraph extends Component {
     super(props);
 
     this.state = {
-      contributorLoading: false,
       commitsLoading: false,
-      additionDeletionLoading: false,
-      topContributorsLoading: false,
-      daysOfWeekLoading: false,
+      contributorLoading: false,
+      showCommitGraph: false,
+      showDaysOfTheWeek: false,
+      showAdditionDeletion: false,
+      showTopContributors: false,
       daysOfWeekGraphData: '',
       additionStats: '',
       deletionStats: '',
@@ -47,11 +48,8 @@ class RepoGraph extends Component {
   componentDidMount() {
 
     this.setState({
-      contributorLoading: true,
       commitLoading: true,
-      additionDeletionLoading: true,
-      topContributorsLoading: true,
-      daysOfWeekLoading: true,
+      contributorLoading: false,
     })
 
     this.getDaysOfWeekStats()
@@ -144,7 +142,6 @@ class RepoGraph extends Component {
 
        //console.log(daysOfWeekGraphData)
        this.setState({
-         daysOfWeekLoading: false,
          daysOfWeekGraphData: daysOfWeekGraphData
        })
      })
@@ -188,7 +185,6 @@ class RepoGraph extends Component {
        // console.log(deletions)
 
        this.setState({
-         additionDeletionLoading: false,
          additionStats: additions,
          deletionStats: deletions
        })
@@ -196,10 +192,6 @@ class RepoGraph extends Component {
   }
 
   getTopContributorData() {
-
-    this.setState({
-      fetchString: 'top contributors'
-    })
 
     // Get addition/deletion stats from GitHub API
     var fetchEndpoint = 'https://api.github.com/repos/'.concat(this.props.repoData.owner.login, '/',this.props.repoData.name, '/stats/contributors')
@@ -243,10 +235,6 @@ class RepoGraph extends Component {
 
   getContributorData() {
 
-    this.setState({
-      fetchString: 'contributors'
-    })
-
     this.paginate(octokit.repos.getContributors, this.props.repoData.owner.login, this.props.repoData.name)
     .then(data => {
 
@@ -260,21 +248,46 @@ class RepoGraph extends Component {
 
   onRadioBtnClick(rSelected) {
     switch(rSelected) {
-    case 1:
-        console.log("commit graph")
-        break;
-    case 2:
-        console.log("active days")
-        break;
-    case 3:
-        console.log("add v del")
-        break;
-    case 4:
-        console.log("top contr")
-        break;
-    default:
-        console.log("default")
-}
+      case 1:
+          this.setState({
+            showCommitGraph: true,
+            showDaysOfTheWeek: false,
+            showAdditionDeletion: false,
+            showTopContributors: false,
+          })
+          break;
+      case 2:
+          this.setState({
+            showCommitGraph: false,
+            showDaysOfTheWeek: true,
+            showAdditionDeletion: false,
+            showTopContributors: false,
+          })
+          break;
+      case 3:
+          this.setState({
+            showCommitGraph: false,
+            showDaysOfTheWeek: false,
+            showAdditionDeletion: true,
+            showTopContributors: false,
+          })
+          break;
+      case 4:
+          this.setState({
+            showCommitGraph: false,
+            showDaysOfTheWeek: false,
+            showAdditionDeletion: false,
+            showTopContributors: true,
+          })
+          break;
+      default:
+      this.setState({
+        showCommitGraph: false,
+        showDaysOfTheWeek: false,
+        showAdditionDeletion: false,
+        showTopContributors: false,
+      })
+    }
   }
 
   // Method for fetching multiple pages of commits
@@ -301,12 +314,12 @@ class RepoGraph extends Component {
   render () {
     return (
       <div>
-        {(this.state.contributorLoading || this.state.commitLoading || this.state.additionDeletionLoading) && <LoadingSpinner fetched={this.state.fetched} fetchString={this.state.fetchString}/>}
-        {this.state.commitLoading && this.state.commitGraphData && <div className='row80'><CommitGraph graphData={this.state.commitGraphData}/></div>}
-        {!this.state.daysOfWeekLoading && this.state.daysOfWeekGraphData && <div className='row80'><DaysOfWeekChart graphData={this.state.daysOfWeekGraphData}/></div>}
         <GraphSelectButtons onClick={this.onRadioBtnClick}/>
-        {this.state.additionDeletionLoading && this.state.deletionStats && this.state.additionStats && <div className='row80'><AdditionDeletionGraph deletionStats={this.state.deletionStats} additionStats={this.state.additionStats}/></div>}
-        {this.state.topContributorsLoading && this.state.topContributorData && <div className='row80'><TopContributorsChart topContributorData={this.state.topContributorData}/></div>}
+        {this.state.commitLoading && <LoadingSpinner fetched={this.state.fetched} fetchString={this.state.fetchString}/>}
+        {this.state.showCommitGraph && this.state.commitGraphData && <div className='row80'><CommitGraph graphData={this.state.commitGraphData}/></div>}
+        {this.state.showDaysOfTheWeek && this.state.daysOfWeekGraphData && <div className='row80'><DaysOfWeekChart graphData={this.state.daysOfWeekGraphData}/></div>}
+        {this.state.showAdditionDeletion && this.state.deletionStats && this.state.additionStats && <div className='row80'><AdditionDeletionGraph deletionStats={this.state.deletionStats} additionStats={this.state.additionStats}/></div>}
+        {this.state.showTopContributors && this.state.topContributorData && <div className='row80'><TopContributorsChart topContributorData={this.state.topContributorData}/></div>}
         {!this.state.contributorLoading && this.state.contributorData && <div className='row20'><ContributorsCarousel contributorData={this.state.contributorData}/></div>}
       </div>
     )

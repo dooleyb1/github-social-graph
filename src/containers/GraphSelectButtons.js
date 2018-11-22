@@ -25,7 +25,6 @@ class GraphSelectButtons extends Component {
           <Button color="primary" onClick={() => this.onRadioBtnClick(3)} active={this.state.rSelected === 3}>Addition vs Deletion</Button>
           <Button color="primary" onClick={() => this.onRadioBtnClick(4)} active={this.state.rSelected === 4}>Top Contributors</Button>
         </ButtonGroup>
-        <p>Selected: {this.state.rSelected}</p>
       </div>
     );
   }
