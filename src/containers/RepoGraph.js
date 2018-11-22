@@ -5,6 +5,7 @@ import LoadingSpinner from './LoadingSpinner.js';
 import ContributorsCarousel from './ContributorsCarousel.js';
 import AdditionDeletionGraph from './AdditionDeletionGraph.js';
 import TopContributorsChart from './TopContributorsChart.js';
+import GraphSelectButtons from './GraphSelectButtons.js';
 import DaysOfWeekChart from './DaysOfWeekChart.js';
 import CommitGraph from './CommitGraph.js';
 const octokit = require('@octokit/rest')();
@@ -39,6 +40,7 @@ class RepoGraph extends Component {
     this.getContributorData = this.getContributorData.bind(this);
     this.getTopContributorData = this.getTopContributorData.bind(this);
     this.getAdditionDeletionStats = this.getAdditionDeletionStats.bind(this);
+    this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
   }
 
   // When RepoPage mounts, fetch commit data and display loading screen
@@ -238,6 +240,7 @@ class RepoGraph extends Component {
      })
   }
 
+
   getContributorData() {
 
     this.setState({
@@ -253,6 +256,25 @@ class RepoGraph extends Component {
         contributorData: data
       })
     })
+  }
+
+  onRadioBtnClick(rSelected) {
+    switch(rSelected) {
+    case 1:
+        console.log("commit graph")
+        break;
+    case 2:
+        console.log("active days")
+        break;
+    case 3:
+        console.log("add v del")
+        break;
+    case 4:
+        console.log("top contr")
+        break;
+    default:
+        console.log("default")
+}
   }
 
   // Method for fetching multiple pages of commits
@@ -282,6 +304,7 @@ class RepoGraph extends Component {
         {(this.state.contributorLoading || this.state.commitLoading || this.state.additionDeletionLoading) && <LoadingSpinner fetched={this.state.fetched} fetchString={this.state.fetchString}/>}
         {this.state.commitLoading && this.state.commitGraphData && <div className='row80'><CommitGraph graphData={this.state.commitGraphData}/></div>}
         {!this.state.daysOfWeekLoading && this.state.daysOfWeekGraphData && <div className='row80'><DaysOfWeekChart graphData={this.state.daysOfWeekGraphData}/></div>}
+        <GraphSelectButtons onClick={this.onRadioBtnClick}/>
         {this.state.additionDeletionLoading && this.state.deletionStats && this.state.additionStats && <div className='row80'><AdditionDeletionGraph deletionStats={this.state.deletionStats} additionStats={this.state.additionStats}/></div>}
         {this.state.topContributorsLoading && this.state.topContributorData && <div className='row80'><TopContributorsChart topContributorData={this.state.topContributorData}/></div>}
         {!this.state.contributorLoading && this.state.contributorData && <div className='row20'><ContributorsCarousel contributorData={this.state.contributorData}/></div>}
