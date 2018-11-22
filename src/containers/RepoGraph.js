@@ -19,6 +19,8 @@ class RepoGraph extends Component {
       commitsLoading: false,
       additionDeletionLoading: false,
       topContributorsLoading: false,
+      daysOfWeekLoading: false,
+      daysOfWeekGraphData: '',
       additionStats: '',
       deletionStats: '',
       topContributorData: '',
@@ -136,7 +138,11 @@ class RepoGraph extends Component {
            y: daysOfWeekStats[i]
          })
 
-       console.log(daysOfWeekGraphData)
+       //console.log(daysOfWeekGraphData)
+       this.setState({
+         daysOfWeekLoading: false,
+         daysOfWeekGraphData: daysOfWeekGraphData
+       })
      })
   }
 
@@ -273,6 +279,7 @@ class RepoGraph extends Component {
       <div>
         {(this.state.contributorLoading || this.state.commitLoading || this.state.additionDeletionLoading) && <LoadingSpinner fetched={this.state.fetched} fetchString={this.state.fetchString}/>}
         {this.state.commitLoading && this.state.commitGraphData && <div className='row80'><CommitGraph graphData={this.state.commitGraphData}/></div>}
+        {!this.state.daysOfWeekLoading && this.state.daysOfWeekGraphData && <div className='row80'><DaysOfWeekChart graphData={this.state.daysOfWeekGraphData}/></div>}
         {this.state.additionDeletionLoading && this.state.deletionStats && this.state.additionStats && <div className='row80'><AdditionDeletionGraph deletionStats={this.state.deletionStats} additionStats={this.state.additionStats}/></div>}
         {this.state.topContributorsLoading && this.state.topContributorData && <div className='row80'><TopContributorsChart topContributorData={this.state.topContributorData}/></div>}
         {!this.state.contributorLoading && this.state.contributorData && <div className='row20'><ContributorsCarousel contributorData={this.state.contributorData}/></div>}

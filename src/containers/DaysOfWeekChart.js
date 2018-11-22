@@ -17,7 +17,7 @@ class DaysOfWeekChart extends Component {
         >
         <XAxis tickLabelAngle={-90}/>
         <YAxis/>
-        <VerticalRectSeries data={this.props.additionStats} />
+        <VerticalRectSeries data={this.props.graphData} />
         </XYPlot>
       </div>
     )
