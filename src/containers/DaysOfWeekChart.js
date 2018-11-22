@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../css/DaysOfWeekChart.css';
 import '../../node_modules/react-vis/dist/style.css';
-import {XYPlot, XAxis, VerticalRectSeries, YAxis} from 'react-vis';
+import {XYPlot, XAxis, VerticalBarSeries, YAxis} from 'react-vis';
 
 class DaysOfWeekChart extends Component {
 
@@ -11,13 +11,16 @@ class DaysOfWeekChart extends Component {
       <div className='chart'>
         <XYPlot
           margin={{left: 50,bottom: 100}}
-          xType="linear"
+          xType="ordinal"
           height={300}
           width= {500}
         >
-        <XAxis tickLabelAngle={-90}/>
+        <XAxis/>
         <YAxis/>
-        <VerticalRectSeries data={this.props.graphData} />
+        <VerticalBarSeries
+         colorType='literal'
+         data={this.props.graphData}
+        />
         </XYPlot>
       </div>
     )

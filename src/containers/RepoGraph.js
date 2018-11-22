@@ -121,6 +121,8 @@ class RepoGraph extends Component {
      .then(data => {
 
        var daysOfWeekStats = [0,0,0,0,0,0,0];
+       var daysOfWeekStrings = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+       var daysOfWeekColours = ['#50c1e3', '#ff4200', '#ff8600', '#152a70', '#008a91', '#bd04ad', '#da0404']
 
        // Process every API response
        for(var entry in data){
@@ -133,9 +135,9 @@ class RepoGraph extends Component {
 
        for(var i = 0; i < 7; i++)
          daysOfWeekGraphData.push({
-           x0: i,
-           x: i+1,
-           y: daysOfWeekStats[i]
+           x: daysOfWeekStrings[i],
+           y: daysOfWeekStats[i],
+           color: daysOfWeekColours[i]
          })
 
        //console.log(daysOfWeekGraphData)
