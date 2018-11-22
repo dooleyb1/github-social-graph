@@ -314,13 +314,13 @@ class RepoGraph extends Component {
   render () {
     return (
       <div>
-        <GraphSelectButtons onClick={this.onRadioBtnClick}/>
+        {!this.state.commitLoading && <GraphSelectButtons onClick={this.onRadioBtnClick}/>}
         {this.state.commitLoading && <LoadingSpinner fetched={this.state.fetched} fetchString={this.state.fetchString}/>}
         {this.state.showCommitGraph && this.state.commitGraphData && <div className='row80'><CommitGraph graphData={this.state.commitGraphData}/></div>}
         {this.state.showDaysOfTheWeek && this.state.daysOfWeekGraphData && <div className='row80'><DaysOfWeekChart graphData={this.state.daysOfWeekGraphData}/></div>}
         {this.state.showAdditionDeletion && this.state.deletionStats && this.state.additionStats && <div className='row80'><AdditionDeletionGraph deletionStats={this.state.deletionStats} additionStats={this.state.additionStats}/></div>}
         {this.state.showTopContributors && this.state.topContributorData && <div className='row80'><TopContributorsChart topContributorData={this.state.topContributorData}/></div>}
-        {!this.state.contributorLoading && this.state.contributorData && <div className='row20'><ContributorsCarousel contributorData={this.state.contributorData}/></div>}
+        {!this.state.commitLoading && !this.state.contributorLoading && this.state.contributorData && <div className='row20'><ContributorsCarousel contributorData={this.state.contributorData}/></div>}
       </div>
     )
   }
