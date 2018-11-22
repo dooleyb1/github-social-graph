@@ -5,8 +5,8 @@ import LoadingSpinner from './LoadingSpinner.js';
 import ContributorsCarousel from './ContributorsCarousel.js';
 import AdditionDeletionGraph from './AdditionDeletionGraph.js';
 import TopContributorsChart from './TopContributorsChart.js';
+import DaysOfWeekChart from './DaysOfWeekChart.js';
 import CommitGraph from './CommitGraph.js';
-//import savedCommitData from '../facebookreact-commit-data.json'
 const octokit = require('@octokit/rest')();
 
 class RepoGraph extends Component {
@@ -31,6 +31,7 @@ class RepoGraph extends Component {
     };
 
     this.paginate = this.paginate.bind(this);
+    this.getDaysOfWeekStats = this.getDaysOfWeekStats.bind(this);
     this.authenticateGitHub = this.authenticateGitHub.bind(this);
     this.getCommitData = this.getCommitData.bind(this);
     this.getContributorData = this.getContributorData.bind(this);
@@ -45,9 +46,11 @@ class RepoGraph extends Component {
       contributorLoading: true,
       commitLoading: true,
       additionDeletionLoading: true,
-      topContributorsLoading: false,
+      topContributorsLoading: true,
+      daysOfWeekLoading: true,
     })
 
+    this.getDaysOfWeekStats()
     this.getTopContributorData()
     this.getContributorData()
     this.getCommitData()
@@ -105,6 +108,36 @@ class RepoGraph extends Component {
       })
       //console.log(data)
     })
+  }
+
+  getDaysOfWeekStats() {
+
+    // Get addition/deletion stats from GitHub API
+    var fetchEndpoint = 'https://api.github.com/repos/'.concat(this.props.repoData.owner.login, '/',this.props.repoData.name, '/stats/commit_activity')
+    fetch(fetchEndpoint)
+     .then(response => response.json())
+     .then(data => {
+
+       var daysOfWeekStats = [0,0,0,0,0,0,0];
+
+       // Process every API response
+       for(var entry in data){
+         // Loop over every day in API response and add to grand total
+         for(var i = 0; i < 7; i++)
+          daysOfWeekStats[i] += data[entry].days[i];
+       }
+
+       var daysOfWeekGraphData = []
+
+       for(var i = 0; i < 7; i++)
+         daysOfWeekGraphData.push({
+           x0: i,
+           x: i+1,
+           y: daysOfWeekStats[i]
+         })
+
+       console.log(daysOfWeekGraphData)
+     })
   }
 
   getAdditionDeletionStats() {
@@ -187,7 +220,7 @@ class RepoGraph extends Component {
          topContributorsChartData.push({theta: contributions[i].contributions})
        }
 
-       console.log(topContributorsChartData)
+       //console.log(topContributorsChartData)
 
        // Set state to say data is ready
        this.setState({
@@ -241,7 +274,7 @@ class RepoGraph extends Component {
         {(this.state.contributorLoading || this.state.commitLoading || this.state.additionDeletionLoading) && <LoadingSpinner fetched={this.state.fetched} fetchString={this.state.fetchString}/>}
         {this.state.commitLoading && this.state.commitGraphData && <div className='row80'><CommitGraph graphData={this.state.commitGraphData}/></div>}
         {this.state.additionDeletionLoading && this.state.deletionStats && this.state.additionStats && <div className='row80'><AdditionDeletionGraph deletionStats={this.state.deletionStats} additionStats={this.state.additionStats}/></div>}
-        {!this.state.topContributorsLoading && this.state.topContributorData && <div className='row80'><TopContributorsChart topContributorData={this.state.topContributorData}/></div>}
+        {this.state.topContributorsLoading && this.state.topContributorData && <div className='row80'><TopContributorsChart topContributorData={this.state.topContributorData}/></div>}
         {!this.state.contributorLoading && this.state.contributorData && <div className='row20'><ContributorsCarousel contributorData={this.state.contributorData}/></div>}
       </div>
     )
