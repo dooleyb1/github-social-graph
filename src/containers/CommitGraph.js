@@ -1,41 +1,7 @@
 import React, { Component } from 'react';
 import '../css/CommitGraph.css';
 import '../../node_modules/react-vis/dist/style.css';
-import {XYPlot, LineSeries, XAxis, YAxis} from 'react-vis';
-
-const CustomAxisLabel = (props/*: {
-    title: string,
-    xAxis: boolean,
-    // note these next two are passed down from the parent XYPlot/Flexible*XYPlot
-    innerWidth: number,
-    innerHeight: number
-}*/) => {
-    // since we rotate the y label, we have to adjust it to center
-   // (ideally we'd rotate about the correct origin, but i couldn't get that working)
-    const yLabelOffset = {
-        y: props.innerHeight / 2 + props.title.length * 3, // '3' might be different for you depending on your font size/char width
-        x: 10
-    };
-
-    const xLabelOffset = {
-        x: (props.innerWidth / 2) + 30,
-        y: 1.5 * props.innerHeight // 1.2 was enough for me to get it below x axis. you may need a diff't #
-    };
-    const transform = props.xAxis
-        ? `translate(${xLabelOffset.x}, ${xLabelOffset.y})`
-        : `translate(${yLabelOffset.x}, ${yLabelOffset.y}) rotate(-90)`;
-
-    return (
-        <g
-            transform={transform}
-        >
-            <text style={{color: '#4DD0E1'}}>{props.title}</text>
-        </g>
-    );
-};
-
-CustomAxisLabel.displayName = 'CustomAxisLabel';
-CustomAxisLabel.requiresSVG = true;
+import {XYPlot, LineSeries, ChartLabel, XAxis, YAxis} from 'react-vis';
 
 class CommitGraph extends Component {
 
@@ -54,8 +20,18 @@ class CommitGraph extends Component {
             >
             <XAxis tickLabelAngle={-90}/>
             <YAxis/>
-            <CustomAxisLabel title={'Commits'}/>
-            <CustomAxisLabel title={'Date'} xAxis />
+            <ChartLabel
+              text="Commits"
+              className="alt-y-label"
+              includeMargin={true}
+              xPercent={0.02}
+              yPercent={0.1}
+              style={{
+                transform: 'rotate(-90)',
+                textAnchor: 'end',
+                marginLeft: '-150'
+              }}
+              />
             <LineSeries data={this.props.graphData} />
             </XYPlot>
           </div>

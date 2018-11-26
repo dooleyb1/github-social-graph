@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../css/DaysOfWeekChart.css';
 import '../../node_modules/react-vis/dist/style.css';
-import {XYPlot, XAxis, VerticalBarSeries, YAxis} from 'react-vis';
+import {XYPlot, XAxis, ChartLabel, VerticalBarSeries, YAxis} from 'react-vis';
 
 class DaysOfWeekChart extends Component {
 
@@ -21,6 +21,18 @@ class DaysOfWeekChart extends Component {
          colorType='literal'
          data={this.props.graphData}
         />
+        <ChartLabel
+          text="Average Commits"
+          className="alt-y-label"
+          includeMargin={true}
+          xPercent={0.02}
+          yPercent={0.05}
+          style={{
+            transform: 'rotate(-90)',
+            textAnchor: 'end',
+            marginLeft: '-150'
+          }}
+          />
         </XYPlot>
       </div>
     )
