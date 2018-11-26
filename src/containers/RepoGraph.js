@@ -134,7 +134,7 @@ class RepoGraph extends Component {
 
        var daysOfWeekGraphData = []
 
-       for(var i = 0; i < 7; i++)
+       for(i = 0; i < 7; i++)
          daysOfWeekGraphData.push({
            x: daysOfWeekStrings[i],
            y: daysOfWeekStats[i],

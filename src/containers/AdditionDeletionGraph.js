@@ -7,12 +7,7 @@ class AdditionDeletionGraph extends Component {
   render () {
     //console.log(this.props.additionStats)
     var d3 = require("d3-format");
-
-    const ITEMS = [
-      'Additions',
-      'Deletions'
-    ];
-
+    
     return (
       <div className='chart'>
         <XYPlot

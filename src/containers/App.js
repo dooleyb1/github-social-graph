@@ -62,11 +62,6 @@ class App extends Component {
         return
       } else {
 
-        var fileString = String(fields[0]).concat(String(fields[1]).concat("-repodata.txt"))
-
-        //console.log(JSON.stringify(result.data))
-        //console.log(fileString);
-
         this.setState({
           isValid: true,
           repoData: result.data,

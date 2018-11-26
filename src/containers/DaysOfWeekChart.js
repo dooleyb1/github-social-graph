@@ -30,7 +30,6 @@ class DaysOfWeekChart extends Component {
           style={{
             transform: 'rotate(-90)',
             textAnchor: 'end',
-            marginLeft: '-150'
           }}
           />
         </XYPlot>

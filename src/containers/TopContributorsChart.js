@@ -17,6 +17,7 @@ class TopContributorsChart extends Component {
     if(!this.props.topContributorData){
       return(<div></div>)
     } else{
+      console.log(this.state.value)
       return (
         <div className='chart'>
           <RadialChart
