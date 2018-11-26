@@ -18,7 +18,7 @@ class GraphSelectButtons extends Component {
 
   render() {
     return (
-      <div>
+      <div className="button-group">
         <ButtonGroup>
           <Button color="primary" onClick={() => this.onRadioBtnClick(1)} active={this.state.rSelected === 1}>Commit Graph</Button>
           <Button color="primary" onClick={() => this.onRadioBtnClick(2)} active={this.state.rSelected === 2}>Active Days</Button>
