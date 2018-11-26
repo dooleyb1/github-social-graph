@@ -6,7 +6,9 @@ class GraphSelectButtons extends Component {
   constructor (props) {
     super(props);
 
-    this.state = { cSelected: [] };
+    this.state = { cSelected: [],
+                   rSelected: 1
+                  };
 
     this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
   }
@@ -20,8 +22,8 @@ class GraphSelectButtons extends Component {
     return (
       <div className="button-group">
         <ButtonGroup>
-          <Button color="primary" onClick={() => this.onRadioBtnClick(1)} active={this.state.rSelected === 1}>Commit Graph</Button>
-          <Button color="primary" onClick={() => this.onRadioBtnClick(2)} active={this.state.rSelected === 2}>Active Days</Button>
+          <Button color="primary" onClick={() => this.onRadioBtnClick(1)} active={this.state.rSelected === 1}>Active Days</Button>
+          <Button color="primary" onClick={() => this.onRadioBtnClick(2)} active={this.state.rSelected === 2}>Commit Graph</Button>
           <Button color="primary" onClick={() => this.onRadioBtnClick(3)} active={this.state.rSelected === 3}>Addition vs Deletion</Button>
           <Button color="primary" onClick={() => this.onRadioBtnClick(4)} active={this.state.rSelected === 4}>Top Contributors</Button>
         </ButtonGroup>

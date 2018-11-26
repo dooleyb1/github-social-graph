@@ -106,6 +106,7 @@ class RepoGraph extends Component {
       this.setState({
         commitLoading: false,
         commitData: data,
+        showDaysOfTheWeek: true,
         commitGraphData: graphData
       })
       //console.log(data)
@@ -248,15 +249,8 @@ class RepoGraph extends Component {
 
   onRadioBtnClick(rSelected) {
     switch(rSelected) {
+      // Active Days
       case 1:
-          this.setState({
-            showCommitGraph: true,
-            showDaysOfTheWeek: false,
-            showAdditionDeletion: false,
-            showTopContributors: false,
-          })
-          break;
-      case 2:
           this.setState({
             showCommitGraph: false,
             showDaysOfTheWeek: true,
@@ -264,6 +258,16 @@ class RepoGraph extends Component {
             showTopContributors: false,
           })
           break;
+      // Commit Graph
+      case 2:
+          this.setState({
+            showCommitGraph: true,
+            showDaysOfTheWeek: false,
+            showAdditionDeletion: false,
+            showTopContributors: false,
+          })
+          break;
+      // Addition v Deletion
       case 3:
           this.setState({
             showCommitGraph: false,
@@ -272,6 +276,7 @@ class RepoGraph extends Component {
             showTopContributors: false,
           })
           break;
+      // Top Contributors
       case 4:
           this.setState({
             showCommitGraph: false,
@@ -283,7 +288,7 @@ class RepoGraph extends Component {
       default:
       this.setState({
         showCommitGraph: false,
-        showDaysOfTheWeek: false,
+        showDaysOfTheWeek: true,
         showAdditionDeletion: false,
         showTopContributors: false,
       })
