@@ -15,10 +15,10 @@ class ContributorsCarousel extends Component {
   generateContributorIcons = (contributorData) => {
 
     let contributorIcons = [];
-
     // Loop over all repos creating a menu item for each
     for (var contributor in contributorData) {
-      contributorIcons.push(<div><img className="org-icon" src={contributorData[contributor].avatar_url} alt="user icon"/></div>);
+      console.log(contributorData[contributor])
+      contributorIcons.push(<div><a href={contributorData[contributor].html_url} target="_blank"><img className="org-icon" src={contributorData[contributor].avatar_url} alt="user icon"/></a></div>);
     }
 
     return contributorIcons;
