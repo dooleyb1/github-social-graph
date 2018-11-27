@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import '../css/DaysOfWeekChart.css';
 import '../../node_modules/react-vis/dist/style.css';
-import {XYPlot, XAxis, Hint, ChartLabel, VerticalBarSeries, YAxis} from 'react-vis';
+import {XYPlot, XAxis, ChartLabel, VerticalBarSeries, YAxis} from 'react-vis';
+import ReactTooltip from 'react-tooltip';
 
 class DaysOfWeekChart extends Component {
 
@@ -9,19 +10,35 @@ class DaysOfWeekChart extends Component {
     super(props);
     this.state = {
       value: null,
+      clicked: false
     };
   }
 
   render () {
     //console.log(this.props.additionStats)
     return (
-      <div className='chart'>
+      <div data-tip data-for='commitTip' className='chart'>
+        {this.state.value && this.state.clicked &&
+          <ReactTooltip id='commitTip' type='error'>
+            <p>Day: {this.state.value.day}</p>
+            <p>Average Commits: {this.state.value.commits}</p>
+          </ReactTooltip>
+        }
         <XYPlot
           margin={{left: 50,bottom: 100}}
           xType="ordinal"
           height={300}
           width= {500}
-          onMouseLeave={() => this.setState({value: null})}
+          onMouseLeave={() => this.setState({
+            value: null,
+            clicked: false
+          })}
+          onClick={(event) => this.setState({
+            clicked: true
+          })}
+          onDoubleClick={(event) => this.setState({
+            clicked: false
+          })}
         >
         <XAxis/>
         <YAxis/>
@@ -39,14 +56,13 @@ class DaysOfWeekChart extends Component {
           <VerticalBarSeries
            colorType='literal'
            data={this.props.graphData}
-           onNearestXY={(datapoint) => this.setState({
+           onNearestX={(datapoint) => this.setState({
              value: {
-               Day: datapoint.x,
-               Avg_Commits: datapoint.y,
+               day: datapoint.x.toString().substring(0,15),
+               commits: datapoint.y,
              }
            })}
           />
-          {this.state.value && <Hint value={this.state.value}/>}
         </XYPlot>
       </div>
     )
