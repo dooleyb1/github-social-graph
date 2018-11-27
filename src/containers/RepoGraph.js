@@ -100,7 +100,7 @@ class RepoGraph extends Component {
         graphData.push({x: new Date(node), y: commitCounts[node]})
       }
 
-      //console.log(graphData)
+      console.log(data)
 
       // Set state to say data is ready
       this.setState({

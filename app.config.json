@@ -4,7 +4,7 @@
       name      : "github-social-graph",
       script    : "npx",
       interpreter: "none",
-      args: "serve -l tcp://127.0.0.1:3307 -s build"
+      args: "serve -l tcp://127.0.0.1:3308 -s build"
     }
   ]
 }

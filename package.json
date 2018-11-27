@@ -23,7 +23,7 @@
     "write-json-file": "^3.0.2"
   },
   "scripts": {
-    "start": "PORT=3307 react-scripts start",
+    "start": "PORT=3308 react-scripts start",
     "build": "react-scripts build",
     "serve": "pm2 start app.config.json --watch",
     "unserve": "pm2 delete github-access",
