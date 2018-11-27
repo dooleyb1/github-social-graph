@@ -9,7 +9,6 @@ class CommitGraph extends Component {
     super(props);
     this.state = {
       value: null,
-      event: null
     };
   }
 
@@ -47,15 +46,11 @@ class CommitGraph extends Component {
                 value: {
                   date: datapoint.x.toString().substring(0,15),
                   commits: datapoint.y,
-                },
-                event: event
+                }
               })}
               data={this.props.graphData}
             />
-            {this.state.value && <Hint
-              value={this.state.value}
-              align={{horizontal: 'right', vertical: 'top'}}
-            />}
+            {this.state.value && <Hint value={this.state.value}/>}
             </XYPlot>
           </div>
         )

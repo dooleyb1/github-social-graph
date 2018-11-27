@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
 import '../css/DaysOfWeekChart.css';
 import '../../node_modules/react-vis/dist/style.css';
-import {XYPlot, XAxis, ChartLabel, VerticalBarSeries, YAxis} from 'react-vis';
+import {XYPlot, XAxis, Hint, ChartLabel, VerticalBarSeries, YAxis} from 'react-vis';
 
 class DaysOfWeekChart extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: null,
+    };
+  }
 
   render () {
     //console.log(this.props.additionStats)
@@ -14,13 +21,10 @@ class DaysOfWeekChart extends Component {
           xType="ordinal"
           height={300}
           width= {500}
+          onMouseLeave={() => this.setState({value: null})}
         >
         <XAxis/>
         <YAxis/>
-        <VerticalBarSeries
-         colorType='literal'
-         data={this.props.graphData}
-        />
         <ChartLabel
           text="Average Commits"
           className="alt-y-label"
@@ -32,6 +36,17 @@ class DaysOfWeekChart extends Component {
             textAnchor: 'end',
           }}
           />
+          <VerticalBarSeries
+           colorType='literal'
+           data={this.props.graphData}
+           onNearestXY={(datapoint) => this.setState({
+             value: {
+               Day: datapoint.x,
+               Avg_Commits: datapoint.y,
+             }
+           })}
+          />
+          {this.state.value && <Hint value={this.state.value}/>}
         </XYPlot>
       </div>
     )
