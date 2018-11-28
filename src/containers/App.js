@@ -33,6 +33,10 @@ class App extends Component {
     this.handleReturn = this.handleReturn.bind(this);
   }
 
+  componentDidMount() {
+    document.title = "GitHub Social Graph";
+  }
+
   handleChange(event) {
     this.setState({orgRepoString: event.target.value});
   }
