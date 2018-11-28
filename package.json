@@ -2,6 +2,7 @@
   "name": "app",
   "version": "0.1.0",
   "private": true,
+  "homepage" : "http://brandondooley.com/github-social-graph",
   "dependencies": {
     "@octokit/rest": "^15.18.0",
     "bootstrap": "^3.3.7",
