@@ -2,9 +2,9 @@
 
 Web-application written in ReactJS that interrogates the GitHub API and graphically displays information regarding the lifecycle of an organisations repository.
 
-This project extends upon the [CS3021 - GitHub Access Project](https://github.com/dooleyb1/github-access-graphical).
+This project extends upon the [CS3021 - GitHub Access Project](https://github.com/dooleyb1/github-access-graphical)
 
-[Live Version](https://brandondooley.com/github-social-graph).
+[Live Version](https://brandondooley.com/github-social-graph)
 
 ## Basic Overview
 
