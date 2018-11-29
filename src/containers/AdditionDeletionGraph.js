@@ -26,9 +26,9 @@ class AdditionDeletionGraph extends Component {
       <div data-tip data-for='commitTip' className='chart'>
         {this.state.value && this.state.clicked &&
           <ReactTooltip id='commitTip' type='error'>
-            <p>Date: {this.state.date}</p>
-            <p>Additions: {this.state.additions}</p>
-            <p>Deletions: {this.state.deletions}</p>
+            <p><span style={{color: '#4DD0E1'}}>Date:</span> {this.state.date}</p>
+            <p><span style={{color: '#12939A'}}>Additions:</span> {this.state.additions}</p>
+            <p><span style={{color: '#79C7E3'}}>Deletions:</span>  {this.state.deletions}</p>
           </ReactTooltip>
         }
         <XYPlot

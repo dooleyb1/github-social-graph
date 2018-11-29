@@ -23,8 +23,8 @@ class CommitGraph extends Component {
           <div data-tip data-for='commitTip' className='chart'>
             {this.state.value && this.state.clicked &&
               <ReactTooltip id='commitTip' type='error'>
-                <p>Date: {this.state.value.date}</p>
-                <p>Commits: {this.state.value.commits}</p>
+                <p><span style={{color: '#4DD0E1'}}>Date:</span> {this.state.value.date}</p>
+                <p><span style={{color: '#4DD0E1'}}>Commits:</span> {this.state.value.commits}</p>
               </ReactTooltip>
             }
             <XYPlot

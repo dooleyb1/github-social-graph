@@ -14,18 +14,14 @@ class DaysOfWeekChart extends Component {
     };
   }
 
-  componentDidMount(){
-    
-  }
-
   render () {
     //console.log(this.props.additionStats)
     return (
       <div data-tip data-for='commitTip' className='chart'>
         {this.state.value && this.state.clicked &&
           <ReactTooltip id='commitTip' type='error'>
-            <p>Day: {this.state.value.day}</p>
-            <p>Average Commits: {this.state.value.commits}</p>
+            <p><span style={{color: '#4DD0E1'}}>Day:</span> {this.state.value.day}</p>
+            <p><span style={{color: '#4DD0E1'}}>Average Commits:</span> {this.state.value.commits}</p>
           </ReactTooltip>
         }
         <XYPlot
