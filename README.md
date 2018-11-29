@@ -4,7 +4,7 @@ Web-application written in ReactJS that interrogates the GitHub API and graphica
 
 This project extends upon the [CS3021 - GitHub Access Project](https://github.com/dooleyb1/github-access-graphical).
 
-Live Version: [brandondooley.com](https://brandondooley.com/github-social-graph).
+[Live Version](https://brandondooley.com/github-social-graph).
 
 ## Basic Overview
 
