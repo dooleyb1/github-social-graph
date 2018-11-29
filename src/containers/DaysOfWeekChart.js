@@ -14,6 +14,10 @@ class DaysOfWeekChart extends Component {
     };
   }
 
+  componentDidMount(){
+    
+  }
+
   render () {
     //console.log(this.props.additionStats)
     return (

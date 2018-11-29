@@ -1,0 +1,14 @@
+.inner-tooltip {
+  text-align: center;
+  align-items: center;
+}
+
+.horizontal-line {
+  height: calc(5% - 15px);
+  margin-top: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 15px;
+  border-top: 1px solid grey;
+  width: calc(80%);
+}

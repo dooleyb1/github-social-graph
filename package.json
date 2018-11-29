@@ -2,7 +2,7 @@
   "name": "app",
   "version": "0.1.0",
   "private": true,
-  "homepage" : "http://brandondooley.com/github-social-graph",
+  "homepage": "http://brandondooley.com/github-social-graph",
   "dependencies": {
     "@octokit/rest": "^15.18.0",
     "bootstrap": "^3.3.7",
@@ -13,6 +13,8 @@
     "react-bootstrap": "^0.32.4",
     "react-dom": "^16.6.0",
     "react-loader-spinner": "^2.2.0",
+    "react-notifications": "^1.4.3",
+    "react-popup": "^0.9.3",
     "react-scripts": "2.1.0",
     "react-slick": "^0.23.2",
     "react-tooltip": "^3.9.0",

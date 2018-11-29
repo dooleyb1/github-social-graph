@@ -17,7 +17,7 @@ class Form extends Component {
           {!this.props.isValid && <p className="invalid-username">Invalid organisation/repo combination entered.</p>}
           <div className={`form-group`}>
             <input type="text" required className="form-control" name="username"
-              placeholder="e.g facebook/react"
+              placeholder="e.g uber/react-vis"
               onChange={this.props.onChangeValue}/>
           </div>
           <button type="submit" className="btn btn-primary">Find Me</button>

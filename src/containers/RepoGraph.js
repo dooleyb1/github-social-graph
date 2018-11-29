@@ -8,6 +8,7 @@ import TopContributorsChart from './TopContributorsChart.js';
 import GraphSelectButtons from './GraphSelectButtons.js';
 import DaysOfWeekChart from './DaysOfWeekChart.js';
 import CommitGraph from './CommitGraph.js';
+import 'react-notifications/lib/notifications.css';
 const octokit = require('@octokit/rest')();
 
 class RepoGraph extends Component {
@@ -31,7 +32,8 @@ class RepoGraph extends Component {
       contributorData: '',
       fetched: 0,
       fetchString: '',
-      accessToken: accessToken
+      accessToken: accessToken,
+      top5: ''
     };
 
     this.paginate = this.paginate.bind(this);
@@ -206,11 +208,13 @@ class RepoGraph extends Component {
        for(var entry in data){
 
          // console.log(data[entry].total)
-         // console.log(data[entry].author.login)
+         //console.log(data[entry].author)
 
          contributions.push({
-           author: data[entry].author.login,
-           contributions: data[entry].total
+           username: data[entry].author.login,
+           contributions: data[entry].total,
+           avatar: data[entry].author.avatar_url,
+           html_url: data[entry].author.html_url
          })
        }
 
@@ -223,12 +227,13 @@ class RepoGraph extends Component {
          topContributorsChartData.push({theta: contributions[i].contributions})
        }
 
-       //console.log(topContributorsChartData)
+       console.log(top5)
 
        // Set state to say data is ready
        this.setState({
          topContributorsLoading: false,
-         topContributorData: topContributorsChartData
+         topContributorData: topContributorsChartData,
+         top5: top5
        })
      })
   }
@@ -321,10 +326,10 @@ class RepoGraph extends Component {
       <div>
         {!this.state.commitLoading && <GraphSelectButtons onClick={this.onRadioBtnClick}/>}
         {this.state.commitLoading && <LoadingSpinner fetched={this.state.fetched} fetchString={this.state.fetchString}/>}
-        {this.state.showCommitGraph && this.state.commitGraphData && <div className='row80'><CommitGraph graphData={this.state.commitGraphData}/></div>}
-        {this.state.showDaysOfTheWeek && this.state.daysOfWeekGraphData && <div className='row80'><DaysOfWeekChart graphData={this.state.daysOfWeekGraphData}/></div>}
-        {this.state.showAdditionDeletion && this.state.deletionStats && this.state.additionStats && <div className='row80'><AdditionDeletionGraph deletionStats={this.state.deletionStats} additionStats={this.state.additionStats}/></div>}
-        {this.state.showTopContributors && this.state.topContributorData && <div className='row80'><TopContributorsChart topContributorData={this.state.topContributorData}/></div>}
+        {!this.state.commitLoading && this.state.showCommitGraph && this.state.commitGraphData && <div className='row80'><CommitGraph graphData={this.state.commitGraphData}/></div>}
+        {!this.state.commitLoading && this.state.showDaysOfTheWeek && this.state.daysOfWeekGraphData && <div className='row80'><DaysOfWeekChart graphData={this.state.daysOfWeekGraphData}/></div>}
+        {!this.state.commitLoading && this.state.showAdditionDeletion && this.state.deletionStats && this.state.additionStats && <div className='row80'><AdditionDeletionGraph deletionStats={this.state.deletionStats} additionStats={this.state.additionStats}/></div>}
+        {!this.state.commitLoading && this.state.showTopContributors && this.state.topContributorData && <div className='row80'><TopContributorsChart topContributorData={this.state.topContributorData} top5={this.state.top5}/></div>}
         {!this.state.commitLoading && !this.state.contributorLoading && this.state.contributorData && <div className='row20'><ContributorsCarousel contributorData={this.state.contributorData}/></div>}
       </div>
     )
