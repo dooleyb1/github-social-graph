@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../css/TopContributorsChart.css';
 import '../../node_modules/react-vis/dist/style.css';
-import {RadialChart, Hint} from 'react-vis';
+import {RadialChart} from 'react-vis';
 import ReactTooltip from 'react-tooltip';
 
 class TopContributorsChart extends Component {
@@ -22,7 +22,7 @@ class TopContributorsChart extends Component {
 
   getData(theta) {
     for(var author in this.props.top5){
-      if(this.props.top5[author].contributions == theta){
+      if(this.props.top5[author].contributions === theta){
         this.setState({
           username: this.props.top5[author].username,
           contributions: this.props.top5[author].contributions,

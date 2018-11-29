@@ -27,8 +27,8 @@ class RepoProfile extends Component {
             <p><span style={{color: '#4DD0E1'}}>Issues:</span> {this.props.repoData.open_issues_count} | <span style={{color: '#4DD0E1'}}>Forks:</span> {this.props.repoData.forks_count}</p>
           </div>
           <div className="repo-details-links">
-            <a className="link" href={this.props.repoData.homepage} rel="noopener noreferrer">Homepage</a><br/><br/>
-            <a className="link" href={this.props.repoData.html_url} rel="noopener noreferrer">Repository</a>
+            <a className="link" href={this.props.repoData.homepage} target="_blank" rel="noopener noreferrer">Homepage</a><br/><br/>
+            <a className="link" href={this.props.repoData.html_url} target="_blank" rel="noopener noreferrer">Repository</a>
           </div>
           <div className="horizontal-line"></div>
           <div className="return-button">
