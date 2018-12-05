@@ -1,4 +1,4 @@
-# GitHub Social Graph | ![Build Status](https://brandondooley.com/jenkins/job/github-social-graph/23/badge/icon?style=plastic "Build Status Icon")
+# GitHub Social Graph | [![Build Status](https://brandondooley.com/jenkins/job/github-social-graph/24/badge/icon?style=plastic)](https://brandondooley.com/jenkins/job/github-social-graph/24/)
 
 Web-application written in ReactJS that interrogates the GitHub API and graphically displays information regarding the lifecycle of an organisations repository.
 
