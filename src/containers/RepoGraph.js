@@ -8,7 +8,6 @@ import TopContributorsChart from './TopContributorsChart.js';
 import GraphSelectButtons from './GraphSelectButtons.js';
 import DaysOfWeekChart from './DaysOfWeekChart.js';
 import CommitGraph from './CommitGraph.js';
-import 'react-notifications/lib/notifications.css';
 const octokit = require('@octokit/rest')();
 
 class RepoGraph extends Component {
