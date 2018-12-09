@@ -24,12 +24,12 @@ self.__precacheManifest = [
     "url": "/github-social-graph/static/media/slick.ced611da.eot"
   },
   {
-    "revision": "d41f55a78e6f49a5512878df1737e58a",
-    "url": "/github-social-graph/static/media/slick.d41f55a7.ttf"
-  },
-  {
     "revision": "b7c9e1e479de3b53f1e4e30ebac2403a",
     "url": "/github-social-graph/static/media/slick.b7c9e1e4.woff"
+  },
+  {
+    "revision": "d41f55a78e6f49a5512878df1737e58a",
+    "url": "/github-social-graph/static/media/slick.d41f55a7.ttf"
   },
   {
     "revision": "bde9966241c9ce5649c5",
@@ -44,12 +44,12 @@ self.__precacheManifest = [
     "url": "/github-social-graph/static/media/glyphicons-halflings-regular.f4769f9b.eot"
   },
   {
-    "revision": "fa2772327f55d8198301fdb8bcfc8158",
-    "url": "/github-social-graph/static/media/glyphicons-halflings-regular.fa277232.woff"
-  },
-  {
     "revision": "448c34a56d699c29117adc64c43affeb",
     "url": "/github-social-graph/static/media/glyphicons-halflings-regular.448c34a5.woff2"
+  },
+  {
+    "revision": "fa2772327f55d8198301fdb8bcfc8158",
+    "url": "/github-social-graph/static/media/glyphicons-halflings-regular.fa277232.woff"
   },
   {
     "revision": "e18bbf611f2a2e43afc071aa2f4e1512",
