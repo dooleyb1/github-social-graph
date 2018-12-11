@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import '../css/RepoGraph.css';
-import { accessToken } from '../access-token.js';
 import LoadingSpinner from './LoadingSpinner.js';
 import ContributorsCarousel from './ContributorsCarousel.js';
 import AdditionDeletionGraph from './AdditionDeletionGraph.js';
@@ -8,6 +7,7 @@ import TopContributorsChart from './TopContributorsChart.js';
 import GraphSelectButtons from './GraphSelectButtons.js';
 import DaysOfWeekChart from './DaysOfWeekChart.js';
 import CommitGraph from './CommitGraph.js';
+require('dotenv').config()
 const octokit = require('@octokit/rest')();
 
 class RepoGraph extends Component {
@@ -31,7 +31,7 @@ class RepoGraph extends Component {
       contributorData: '',
       fetched: 0,
       fetchString: '',
-      accessToken: accessToken,
+      accessToken: process.env.REACT_APP_API_KEY,
       top5: ''
     };
 
@@ -65,7 +65,7 @@ class RepoGraph extends Component {
 
     octokit.authenticate({
       type: 'token',
-      token: accessToken
+      token: process.env.REACT_APP_API_KEY
     })
   }
 

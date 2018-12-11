@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import '../css/App.css';
 import Form from './Form.js';
 import RepoPage from './RepoPage.js';
-import { accessToken } from '../access-token.js';
 import Loader from 'react-loader-spinner';
+require('dotenv').config()
 //import savedRepoData from '../facebookreact-repodata.json'
 
 const octokit = require('@octokit/rest')();
@@ -15,7 +15,7 @@ class App extends Component {
 
     octokit.authenticate({
       type: 'token',
-      token: accessToken
+      token: process.env.REACT_APP_API_KEY
     })
 
     this.state = {
